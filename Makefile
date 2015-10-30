@@ -48,10 +48,13 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = main.cpp 
-OBJECTS       = main.o
+SOURCES       = main.cpp \
+		OneDSolver.cpp 
+OBJECTS       = main.o \
+		OneDSolver.o
 DIST          = deployment.pri \
-		Integration.pro  main.cpp
+		Integration.pro OneDSolver.h main.cpp \
+		OneDSolver.cpp
 QMAKE_TARGET  = Integration
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = Integration
@@ -375,8 +378,11 @@ compiler_clean:
 
 ####### Compile
 
-main.o: main.cpp 
+main.o: main.cpp OneDSolver.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
+
+OneDSolver.o: OneDSolver.cpp OneDSolver.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o OneDSolver.o OneDSolver.cpp
 
 ####### Install
 

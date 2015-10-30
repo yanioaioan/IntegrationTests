@@ -183,7 +183,7 @@
 //    //drawing part
 //    //
 //    std::ofstream myfile;
-//    myfile.open ("testIntegration.ppm");
+//    myfile.open ("testIntegration_Simple RK4 integration framework.ppm");
 //    myfile << "P3\n";
 //    myfile << "1000 1000\n";
 //    myfile << "255\n";//max picel value number
@@ -244,7 +244,7 @@
 
 
 
-
+//State Definition and Integration of physics' based simulation START
 ///////////////////////////////////////////////////////////////////////////////////
 
 #include <iostream>
@@ -272,9 +272,114 @@ void write_lorenz( const state_type &x , const double t )
 {
     cout << /*t <<*/ '\t' << x[0] << '\t' << x[1] << '\t' << x[2] << endl;
 }
+///////////////////////////////////////////////////////////////////////////////////
+//State Definition and Integration of physics' based simulation END
 
+
+
+
+//A 1st order 1D DE solver. Integration START
+///////////////////////////////////////////////////////////////////////////////////
+
+#include "stdio.h"
+#include "stdlib.h"
+#include "math.h"
+#include "OneDSolver.h"
+
+#include <fstream>
+//#include <cstdlib>
+//#include <stdio.h>
+//#include <math.h>
+//#include <iostream>
+
+
+#define EULER    0
+#define MIDPOINT 3
+#define RUNGEKUTTA_4 4
+#define RUNGEKUTTA_6 5
+
+
+double EvalFcn(double x)
+{
+   return(-0.05 * x);
+}
+
+
+//A 1st order 1D DE solver. Integration END
+///////////////////////////////////////////////////////////////////////////////////
+/// \brief main
+/// \param argc
+/// \param argv
+/// \return
+///
+///
 int main(int argc, char **argv)
 {
-    state_type x = { 10.0 , 1.0 , 1.0 }; // initial conditions
-    integrate( lorenz , x , 0.0 , 25.0 , 0.1 , write_lorenz );
+
+
+//    State Definition and Integration of physics' based simulation
+//    state_type x = { 10.0 , 1.0 , 1.0 }; // initial conditions
+//    integrate( lorenz , x , 0.0 , 25.0 , 0.1 , write_lorenz );
+
+
+
+
+
+
+//     A 1st order 1D DE solver. Integration
+
+
+        std::ofstream myfile;
+        myfile.open (" A_1st_order_ 1D_DE_solver_Integrationk.ppm");
+        myfile << "P3\n";
+        myfile << "10 40\n";
+        myfile << "255\n";//max picel value number
+
+       double t;
+       double dt=0.1;    /* Step size            */
+       double T=100;     /* Simulation duration  */
+       double y = 1;     /* Initial value        */
+
+       OneDSolver s;
+       for (t=0;t<T;t+=dt) {
+          printf("%g %g\n",t,y);
+          y = s.Solver1D(dt,y,EULER,(double (*)(double))EvalFcn);
+
+
+          myfile <<  int(abs(y)*t*10)<<" "<< int(abs(y)*t*10) << " "<< 0 << " ";
+          myfile << "\n";
+       }
+
+       for (t=0;t<T;t+=dt) {
+          printf("%g %g\n",t,y);
+          y = s.Solver1D(dt,y,MIDPOINT,(double (*)(double))EvalFcn);
+
+
+          myfile <<  int(abs(y)*t*20)<<" "<< int(abs(y)*t*20) << " "<< 0 << " ";
+          myfile << "\n";
+       }
+
+//       for (t=0;t<T;t+=dt) {
+//          printf("%g %g\n",t,y);
+//          y = s.Solver1D(dt,y,RUNGEKUTTA_4,(double (*)(double))EvalFcn);
+
+
+//            myfile <<  int(abs(y)*100)<<" "<< int(abs(y)*100) << " "<< 0 << " ";
+//            myfile << "\n";
+//       }
+
+//       for (t=0;t<T;t+=dt) {
+//          printf("%g %g\n",t,y);
+//          y = s.Solver1D(dt,y,RUNGEKUTTA_6,(double (*)(double))EvalFcn);
+
+
+//            myfile <<  int(abs(y)*100)<<" "<< int(abs(y)*100) << " "<< 0 << " ";
+//            myfile << "\n";
+//       }
+
+
+
+           myfile << "\n";
+           myfile.close();
+
 }
