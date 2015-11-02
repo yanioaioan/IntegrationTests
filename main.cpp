@@ -294,6 +294,8 @@ void write_lorenz( const state_type &x , const double t )
 
 
 #define EULER    0
+#define MODIFIED_EULER    1
+#define HEUNS    2
 #define MIDPOINT 3
 #define RUNGEKUTTA_4 4
 #define RUNGEKUTTA_6 5
@@ -325,61 +327,120 @@ int main(int argc, char **argv)
 
 
 
-
 //     A 1st order 1D DE solver. Integration
-
+//     The darkest the color of the image->the more accurate the highest the order of integration -> the more accurate the results
 
         std::ofstream myfile;
-        myfile.open (" A_1st_order_ 1D_DE_solver_Integrationk.ppm");
+        myfile.open (" A_1st_order_ 1D_DE_solver_Integration.ppm");
         myfile << "P3\n";
-        myfile << "10 40\n";
+        myfile << "100 60\n";
         myfile << "255\n";//max picel value number
+
 
        double t;
        double dt=0.1;    /* Step size            */
-       double T=100;     /* Simulation duration  */
+       double T=10;     /* Simulation duration  */
        double y = 1;     /* Initial value        */
 
+
        OneDSolver s;
-       for (t=0;t<T;t+=dt) {
+       for (t=0.1;t<T;t+=dt)
+       {
           printf("%g %g\n",t,y);
           y = s.Solver1D(dt,y,EULER,(double (*)(double))EvalFcn);
 
 
-          myfile <<  int(abs(y)*t*10)<<" "<< int(abs(y)*t*10) << " "<< 0 << " ";
-          myfile << "\n";
+          myfile <<  int(abs(y)*200)<<" "<< int(abs(y)*200) << " "<< 0 << " ";
+
+            for (int i=0;i<10;i++)
+            {
+                myfile <<  int(abs(y)*200)<<" "<< int(abs(y)*200) << " "<< 0 << " ";
+                myfile << "\n";
+            }
+
+          counter++;
+
        }
 
-       for (t=0;t<T;t+=dt) {
+
+       for (t=0.1;t<T;t+=dt) {
+          printf("%g %g\n",t,y);
+          y = s.Solver1D(dt,y,MODIFIED_EULER,(double (*)(double))EvalFcn);
+
+
+          myfile <<  int(abs(y)*200)<<" "<< int(abs(y)*200) << " "<< 0 << " ";
+
+          for (int i=0;i<10;i++)
+          {
+              myfile <<  int(abs(y)*200)<<" "<< int(abs(y)*200) << " "<< 0 << " ";
+              myfile << "\n";
+          }
+
+          counter++;
+       }
+
+
+       for (t=0.1;t<T;t+=dt) {
+          printf("%g %g\n",t,y);
+          y = s.Solver1D(dt,y,HEUNS,(double (*)(double))EvalFcn);
+
+
+          myfile <<  int(abs(y)*200)<<" "<< int(abs(y)*200) << " "<< 0 << " ";
+
+          for (int i=0;i<10;i++)
+          {
+              myfile <<  int(abs(y)*200)<<" "<< int(abs(y)*200) << " "<< 0 << " ";
+              myfile << "\n";
+          }
+       }
+
+
+       for (t=0.1;t<T;t+=dt) {
           printf("%g %g\n",t,y);
           y = s.Solver1D(dt,y,MIDPOINT,(double (*)(double))EvalFcn);
 
 
-          myfile <<  int(abs(y)*t*20)<<" "<< int(abs(y)*t*20) << " "<< 0 << " ";
-          myfile << "\n";
+          myfile <<  int(abs(y)*200)<<" "<< int(abs(y)*200) << " "<< 0 << " ";
+
+          for (int i=0;i<10;i++)
+          {
+              myfile <<  int(abs(y)*200)<<" "<< int(abs(y)*200) << " "<< 0 << " ";
+              myfile << "\n";
+          }
        }
 
-//       for (t=0;t<T;t+=dt) {
-//          printf("%g %g\n",t,y);
-//          y = s.Solver1D(dt,y,RUNGEKUTTA_4,(double (*)(double))EvalFcn);
+       for (t=0.1;t<T;t+=dt) {
+          printf("%g %g\n",t,y);
+          y = s.Solver1D(dt,y,RUNGEKUTTA_4,(double (*)(double))EvalFcn);
 
 
-//            myfile <<  int(abs(y)*100)<<" "<< int(abs(y)*100) << " "<< 0 << " ";
-//            myfile << "\n";
-//       }
+          myfile <<  int(abs(y)*200)<<" "<< int(abs(y)*200) << " "<< 0 << " ";
 
-//       for (t=0;t<T;t+=dt) {
-//          printf("%g %g\n",t,y);
-//          y = s.Solver1D(dt,y,RUNGEKUTTA_6,(double (*)(double))EvalFcn);
+          for (int i=0;i<10;i++)
+          {
+              myfile <<  int(abs(y)*200)<<" "<< int(abs(y)*200) << " "<< 0 << " ";
+              myfile << "\n";
+          }
+       }
+
+       for (t=0.1;t<T;t+=dt) {
+          printf("%g %g\n",t,y);
+          y = s.Solver1D(dt,y,RUNGEKUTTA_6,(double (*)(double))EvalFcn);
 
 
-//            myfile <<  int(abs(y)*100)<<" "<< int(abs(y)*100) << " "<< 0 << " ";
-//            myfile << "\n";
-//       }
+          myfile <<  int(abs(y)*200)<<" "<< int(abs(y)*200) << " "<< 0 << " ";
+
+          for (int i=0;i<10;i++)
+          {
+              myfile <<  int(abs(y)*200)<<" "<< int(abs(y)*200) << " "<< 0 << " ";
+              myfile << "\n";
+          }
+       }
+
+       myfile << "\n";
+       myfile.close();
 
 
 
-           myfile << "\n";
-           myfile.close();
 
 }
