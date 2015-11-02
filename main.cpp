@@ -358,7 +358,7 @@ int main(int argc, char **argv)
                 myfile << "\n";
             }
 
-          counter++;
+
 
        }
 
@@ -376,7 +376,7 @@ int main(int argc, char **argv)
               myfile << "\n";
           }
 
-          counter++;
+
        }
 
 
