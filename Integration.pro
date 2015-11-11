@@ -14,3 +14,4 @@ qtcAddDeployment()
 
 HEADERS += \
     OneDSolver.h
+CONFIG +=c++11
